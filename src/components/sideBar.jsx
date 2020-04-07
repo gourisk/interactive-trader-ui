@@ -38,10 +38,12 @@ class SideBar extends Component {
           <div className="sidebar-heading">Others</div>
 
           <li className="nav-item">
-            <a className="nav-link" href="charts.html">
-              <i className="fas fa-fw fa-chart-area"></i>
-              <span>New Order</span>
-            </a>
+            <Link to="/createOrder">
+              <a className="nav-link" href="charts.html">
+                <i className="fas fa-fw fa-chart-area"></i>
+                <span>New Order</span>
+              </a>
+            </Link>
           </li>
 
           <li className="nav-item">
