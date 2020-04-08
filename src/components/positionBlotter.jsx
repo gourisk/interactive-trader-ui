@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import AppConfig from "../utils/constants";
+import { createSocket } from "../utils/socketUtils";
+import SockJsClient from "react-stomp";
 
 class PositionBlotter extends Component {
   state = {};
@@ -36,6 +38,24 @@ class PositionBlotter extends Component {
 
     return (
       <React.Fragment>
+        <div>
+          <SockJsClient
+            url="http://localhost:8080/ibk-ws"
+            topics={["/topics/trades"]}
+            onMessage={(msg) => {
+              console.log(msg);
+              if (msg.orderId) {
+                //check if valid  message
+                const { orders } = this.state;
+                this.setState({ orders: [msg, ...orders] });
+                this.props.reloadTradeCount();
+              }
+            }}
+            ref={(client) => {
+              this.clientRef = client;
+            }}
+          />
+        </div>
         <div className="col-xl-8 col-lg-7">
           <div className="card shadow mb-4">
             <div className="card-header py-3 d-flex flex-row align-items-center justify-content-between">
@@ -73,9 +93,9 @@ class PositionBlotter extends Component {
               </div>
             </div>
             <div className="card-body">
-              <div class="table-responsive">
+              <div className="table-responsive">
                 <table
-                  class="table table-bordered"
+                  class="table table-sm table-bordered"
                   id="dataTable"
                   width="100%"
                   cellspacing="0"

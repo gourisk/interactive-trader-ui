@@ -32,7 +32,7 @@ class Card extends Component {
                     {this.state.header}
                   </div>
                   <div className="h5 mb-0 font-weight-bold text-gray-800">
-                    {this.state.result}
+                    {this.props.result}
                   </div>
                 </div>
               </div>

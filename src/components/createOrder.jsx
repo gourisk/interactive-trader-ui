@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import InstBlotter from "./instBlotter";
-import { Formik, FormikProps, Form, Field } from "formik";
 import AppConfig from "../utils/constants";
 
 class OrderComponent extends Component {
@@ -88,95 +87,93 @@ class OrderComponent extends Component {
 
   render() {
     return (
-      <div className="container">
-        <div className="card o-hidden border-0 shadow-lg my-2">
-          <div className="card-body p-0">
-            <div className="row">
-              <div className="col-lg-6">
-                <div className="p-2">
-                  <div className="text-center">
-                    <h1 className="h4 text-gray-900 mb-4">Create new Order</h1>
-                  </div>
-                  <form className="user">
-                    <div className="form-group row">
-                      <div className="col-sm-6 mb-3 mb-sm-0">
-                        <input
-                          type="text"
-                          className="form-control form-control-user"
-                          id="ticker"
-                          placeholder="Ticker"
-                          onBlur={this.handleFormPropertyChange}
-                        />
-                      </div>
-                      <div className="col-sm-6">
-                        <input
-                          type="text"
-                          className="form-control form-control-user"
-                          id="issuer"
-                          placeholder="Issuer"
-                          disabled="true"
-                          value={this.state.issuer}
-                        />
-                      </div>
-                    </div>
-                    <div className="form-group row">
-                      <div className="col-sm-6 mb-3 mb-sm-0">
-                        <input
-                          type="text"
-                          className="form-control form-control-user"
-                          id="quantity"
-                          placeholder="quantity"
-                          onBlur={this.handleFormPropertyChange}
-                        />
-                      </div>
-                      <div className="col-sm-6 mb-3 mb-sm-0">
-                        <input
-                          type="text"
-                          className="form-control form-control-user"
-                          id="price"
-                          placeholder="Price"
-                          onBlur={this.handleFormPropertyChange}
-                        />
-                      </div>
-                    </div>
-                    <div className="form-group row">
-                      <div className="col-sm-6 mb-3 mb-sm-0">
-                        <select
-                          className="form-control form-control-user"
-                          id="buySell"
-                          onBlur={this.handleFormPropertyChange}
-                        >
-                          <option value="B">Buy</option>
-                          <option value="S">Sell</option>
-                        </select>
-                      </div>
-                      <div className="col-sm-6 mb-3 mb-sm-0">
-                        <input
-                          type="text"
-                          className="form-control form-control-user"
-                          id="tradeDate"
-                          placeholder="date "
-                          onBlur={this.handleFormPropertyChange}
-                        />
-                      </div>
-                    </div>
-                    <a
-                      href="#"
-                      className="btn btn-primary btn-user"
-                      onClick={this.handleSubmit}
-                    >
-                      Create
-                    </a>
-                  </form>
+      <div className="card o-hidden border-0 shadow-lg my-2">
+        <div className="card-body">
+          <div className="row">
+            <div className="col-lg-10">
+              <InstBlotter />
+            </div>
+            <div className="col-lg-6">
+              <div className="p-2">
+                <div className="text-center">
+                  <h1 className="h4 text-gray-900 mb-4">Create new Order</h1>
                 </div>
-              </div>
-              <div className="col-lg-6 col-xl">
-                <InstBlotter />
+                <form className="user">
+                  <div className="form-group row">
+                    <div className="col-sm-6 mb-3 mb-sm-0">
+                      <input
+                        type="text"
+                        className="form-control form-control-user"
+                        id="ticker"
+                        placeholder="Ticker"
+                        onBlur={this.handleFormPropertyChange}
+                      />
+                    </div>
+                    <div className="col-sm-6">
+                      <input
+                        type="text"
+                        className="form-control form-control-user"
+                        id="issuer"
+                        placeholder="Issuer"
+                        disabled="true"
+                        value={this.state.issuer}
+                      />
+                    </div>
+                  </div>
+                  <div className="form-group row">
+                    <div className="col-sm-6 mb-3 mb-sm-0">
+                      <input
+                        type="text"
+                        className="form-control form-control-user"
+                        id="quantity"
+                        placeholder="quantity"
+                        onBlur={this.handleFormPropertyChange}
+                      />
+                    </div>
+                    <div className="col-sm-6 mb-3 mb-sm-0">
+                      <input
+                        type="text"
+                        className="form-control form-control-user"
+                        id="price"
+                        placeholder="Price"
+                        onBlur={this.handleFormPropertyChange}
+                      />
+                    </div>
+                  </div>
+                  <div className="form-group row">
+                    <div className="col-sm-6 mb-3 mb-sm-0">
+                      <select
+                        className="form-control form-control-user"
+                        id="buySell"
+                        onBlur={this.handleFormPropertyChange}
+                      >
+                        <option value="B">Buy</option>
+                        <option value="S">Sell</option>
+                      </select>
+                    </div>
+                    <div className="col-sm-6 mb-3 mb-sm-0">
+                      <input
+                        type="text"
+                        className="form-control form-control-user"
+                        id="tradeDate"
+                        placeholder="date "
+                        onBlur={this.handleFormPropertyChange}
+                      />
+                    </div>
+                  </div>
+                  <a
+                    href="#"
+                    className="btn btn-primary btn-user"
+                    onClick={this.handleSubmit}
+                  >
+                    Create
+                  </a>
+                </form>
               </div>
             </div>
-            <div>
-              <h4>Order created with Id= {this.state.lastOrder.orderId}</h4>
-            </div>
+          </div>
+          <div>
+            <h4>Order created with Id= {this.state.lastOrder.orderId}</h4>
           </div>
         </div>
       </div>

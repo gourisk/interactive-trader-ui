@@ -18,7 +18,7 @@ class SideBar extends Component {
               <i className="fas fa-laugh-wink"></i>
             </div>
             <div className="sidebar-brand-text mx-3">
-              Interactive Trader <sup>TM</sup>
+              Interactive Trader <sup>(GK)</sup>
             </div>
           </a>
 
@@ -35,12 +35,12 @@ class SideBar extends Component {
 
           <hr className="sidebar-divider" />
 
-          <div className="sidebar-heading">Others</div>
+          <div className="sidebar-heading">Orders</div>
 
           <li className="nav-item">
             <Link to="/createOrder">
               <a className="nav-link" href="charts.html">
-                <i className="fas fa-fw fa-chart-area"></i>
+                <i className="fas fa-fw"></i>
                 <span>New Order</span>
               </a>
             </Link>
@@ -53,6 +53,24 @@ class SideBar extends Component {
             </a>
           </li>
 
+          <hr className="sidebar-divider d-none d-md-block" />
+          <div className="sidebar-heading">Reports</div>
+
+          <li className="nav-item">
+            <Link to="/createOrder">
+              <a className="nav-link" href="charts.html">
+                <i className="fas fa-fw fa-chart-area"></i>
+                <span>Daily P/L</span>
+              </a>
+            </Link>
+          </li>
+
+          <li className="nav-item">
+            <a className="nav-link" href="tables.html">
+              <i className="fas fa-fw fa-table"></i>
+              <span>MTD P/L</span>
+            </a>
+          </li>
           <hr className="sidebar-divider d-none d-md-block" />
         </ul>
       </React.Fragment>

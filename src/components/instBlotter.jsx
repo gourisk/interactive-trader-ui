@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import AppConfig from "../utils/constants";
 import { getData } from "../utils/remoteUtils";
+import SockJsClient from "react-stomp";
 
 class InstBlotter extends Component {
   state = {};
@@ -65,6 +66,28 @@ class InstBlotter extends Component {
     });
     return (
       <React.Fragment>
+        <SockJsClient
+          url={AppConfig.socketUrl}
+          topics={[AppConfig.instTopic]}
+          onMessage={(msg) => {
+            console.log(msg);
+            if (msg.ticker) {
+              const ticker = msg.ticker;
+              const { favTickers } = this.state;
+              if (favTickers.includes(ticker)) {
+                const { prices } = this.state;
+                const otherPrices = prices.filter(
+                  (row) => row.ticker != ticker
+                );
+                this.setState({ prices: [...otherPrices, msg] });
+              }
+            }
+          }}
+          ref={(client) => {
+            this.clientRef = client;
+          }}
+        />
+
         <div className="col-xl-4 col-lg-5">
           <div className="card shadow mb-4">
             <div className="card-header py-3 d-flex flex-row align-items-center justify-content-between">
@@ -91,10 +114,10 @@ class InstBlotter extends Component {
 
             <div className="card-body">
               <table
-                class="table table-bordered"
+                class="table table-sm table-bordered"
                 id="dataTable"
                 width="100%"
-                cellspacing="0"
+                cellSpacing="0"
               >
                 <thead>
                   <tr>

@@ -3,7 +3,7 @@ import "./css/sb-admin-2.min.css";
 import SideBar from "./components/sideBar";
 import Header from "./components/header";
 import MainPanel from "./components/mainPanel";
-import { BrowserRouter as Router, Link, Switch, Route } from "react-router-dom";
+import { BrowserRouter as Router } from "react-router-dom";
 
 class App extends Component {
   state = {};
