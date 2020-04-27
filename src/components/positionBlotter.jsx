@@ -23,9 +23,10 @@ class PositionBlotter extends Component {
       orderId: order.orderId,
     };
     console.log("input order to be sent: ", inputOrder);
-    if (order.status !== "OPEN") return;
+    const actionUrl =
+      order.status === "CANCELLED" ? "/orders/undocancel" : "/orders/cancel";
     /* Post Order to server */
-    fetch(baseUrl + "/orders/cancel", {
+    fetch(baseUrl + actionUrl, {
       method: "POST",
       mode: "cors",
       cache: "no-cache",
@@ -86,8 +87,8 @@ class PositionBlotter extends Component {
                 //check if valid  message
                 const { orders } = this.state;
                 const orderId = msg.orderId;
-                if ("OPEN" === msg.status) {
-                  //new trade
+                const found = orders.find((order) => order.orderId === orderId);
+                if (!found) {
                   this.setState({ orders: [msg, ...orders] });
                 } else {
                   //Edited trade
