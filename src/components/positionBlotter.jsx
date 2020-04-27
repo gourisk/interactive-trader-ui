@@ -11,8 +11,40 @@ class PositionBlotter extends Component {
     this.state = {
       accountId: 1,
       orders: [],
+      bookingErrors: {},
+      lastOrder: {},
     };
   }
+
+  updateOrder = (order) => {
+    const baseUrl = AppConfig.serverUrl;
+    const inputOrder = {
+      accountByTraderId: { accountId: this.state.accountId },
+      orderId: order.orderId,
+    };
+    console.log("input order to be sent: ", inputOrder);
+    if (order.status !== "OPEN") return;
+    /* Post Order to server */
+    fetch(baseUrl + "/orders/cancel", {
+      method: "POST",
+      mode: "cors",
+      cache: "no-cache",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      redirect: "follow",
+      body: JSON.stringify(inputOrder),
+    })
+      .then((resp) => resp.json())
+      .then((result) => {
+        if (result.success) {
+          this.setState({ bookingErrors: {}, lastOrder: result.data || {} });
+        } else {
+          this.setState({ bookingErrors: result.errors, lastOrder: {} });
+        }
+      });
+    return;
+  };
 
   componentDidMount = () => {
     const baseUrl = AppConfig.serverUrl;
@@ -33,6 +65,11 @@ class PositionBlotter extends Component {
           <td>{order.buySellFlag}</td>
           <td>{order.executedTime}</td>
           <td>{order.status}</td>
+          <td>
+            <a href="#" onClick={() => this.updateOrder(order)}>
+              {order.status === "OPEN" ? "Cancel" : "Undo"}
+            </a>
+          </td>
         </tr>
       );
     });
@@ -122,6 +159,7 @@ class PositionBlotter extends Component {
                       <th>Buy/Sell</th>
                       <th>Trade Date</th>
                       <th>Status</th>
+                      <th>Action</th>
                     </tr>
                   </thead>
                   <tbody>{tableRows}</tbody>
