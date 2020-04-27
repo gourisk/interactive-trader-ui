@@ -16,28 +16,31 @@ class DashboardSummary extends Component {
       <React.Fragment>
         <div className="row">
           <Card
-            header="Monthly Earning"
+            header="Account Balance"
             url="/acctsummary"
             id="mtd"
-            result={this.props.results["mtd"]}
+            result={this.props.summary.accountBalance}
           />
-          <Card
-            header="Daily P/L"
-            url="/acctsummary"
-            id="daily"
-            result={this.props.results["daily"]}
-          />
+
           <Card
             header="Order Count"
             url="/orders/count/1"
             id="orderCount"
-            result={this.props.results["orderCount"]}
+            result={this.props.summary.orderCount}
           />
+
           <Card
-            header="Some Other"
+            header="Daily P/L"
+            url="/acctsummary"
+            id="daily"
+            result={this.props.summary.dailyPL}
+          />
+
+          <Card
+            header="MTD P/L"
             url="/acctsummary"
             id="test"
-            result={this.props.results["test"]}
+            result={this.props.summary.mtdPL}
           />
         </div>
       </React.Fragment>

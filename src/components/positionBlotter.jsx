@@ -30,8 +30,9 @@ class PositionBlotter extends Component {
           <td>{order.quantity}</td>
           <td>{order.price}</td>
           <td>{order.marketValue}</td>
-          <td>{order.tradeDate}</td>
+          <td>{order.buySellFlag}</td>
           <td>{order.executedTime}</td>
+          <td>{order.status}</td>
         </tr>
       );
     });
@@ -47,7 +48,18 @@ class PositionBlotter extends Component {
               if (msg.orderId) {
                 //check if valid  message
                 const { orders } = this.state;
-                this.setState({ orders: [msg, ...orders] });
+                const orderId = msg.orderId;
+                if ("OPEN" === msg.status) {
+                  //new trade
+                  this.setState({ orders: [msg, ...orders] });
+                } else {
+                  //Edited trade
+                  const newOrders = orders.map((order) =>
+                    order.orderId === orderId ? msg : order
+                  );
+                  this.setState({ orders: newOrders });
+                }
+
                 this.props.reloadTradeCount();
               }
             }}
@@ -107,8 +119,9 @@ class PositionBlotter extends Component {
                       <th>Quanity</th>
                       <th>Price</th>
                       <th>Market Value</th>
+                      <th>Buy/Sell</th>
                       <th>Trade Date</th>
-                      <th>Exec Date</th>
+                      <th>Status</th>
                     </tr>
                   </thead>
                   <tbody>{tableRows}</tbody>

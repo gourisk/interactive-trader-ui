@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import InstBlotter from "./instBlotter";
 import AppConfig from "../utils/constants";
 
+var _ = require("lodash");
+
 class OrderComponent extends Component {
   state = {
     accountId: 1,
@@ -9,6 +11,7 @@ class OrderComponent extends Component {
     customTicker: "",
     prices: [],
     lastOrder: {},
+    bookingErrors: {},
     tradeDate: "",
     buySell: "B",
     ticker: "",
@@ -37,7 +40,7 @@ class OrderComponent extends Component {
     };
     console.log("input order to be sent: ", inputOrder);
     /* Post Order to server */
-    fetch(baseUrl + "/orders/create", {
+    fetch(baseUrl + "/orders/new", {
       method: "POST",
       mode: "cors",
       cache: "no-cache",
@@ -48,7 +51,13 @@ class OrderComponent extends Component {
       body: JSON.stringify(inputOrder),
     })
       .then((resp) => resp.json())
-      .then((data) => this.setState({ lastOrder: data || {} }));
+      .then((result) => {
+        if (result.success) {
+          this.setState({ bookingErrors: {}, lastOrder: result.data || {} });
+        } else {
+          this.setState({ bookingErrors: result.errors, lastOrder: {} });
+        }
+      });
     return;
   };
 
@@ -86,6 +95,19 @@ class OrderComponent extends Component {
   };
 
   render() {
+    var footer = "";
+    const { bookingErrors } = this.state;
+    if (!_.isEmpty(bookingErrors)) {
+      const notes = Object.keys(bookingErrors).map((k) => (
+        <li>
+          {k} : {bookingErrors[k]}
+        </li>
+      ));
+      footer = <ul>{notes}</ul>;
+    } else if (this.state.lastOrder) {
+      footer = <h4>Order created with Id= {this.state.lastOrder.orderId}</h4>;
+    }
+
     return (
       <div className="card o-hidden border-0 shadow-lg my-2">
         <div className="card-body">
@@ -172,9 +194,7 @@ class OrderComponent extends Component {
               </div>
             </div>
           </div>
-          <div>
-            <h4>Order created with Id= {this.state.lastOrder.orderId}</h4>
-          </div>
+          <div>{footer}</div>
         </div>
       </div>
     );

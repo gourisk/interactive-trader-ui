@@ -7,6 +7,7 @@ import AppConfig from "../utils/constants";
 class Dashboard extends Component {
   state = {
     accountId: 1,
+    accountSummary: {},
     results: {
       daily: 0,
       mtd: 0,
@@ -17,7 +18,7 @@ class Dashboard extends Component {
 
   constructor(props) {
     super(props);
-    this.reloadTradeCount();
+    this.reloadSummary();
   }
 
   tradeChanged = (e) => {
@@ -33,9 +34,22 @@ class Dashboard extends Component {
       mode: "cors",
     })
       .then((resp) => resp.json())
-      .then((data) =>
-        this.setState({ results: { ...results, orderCount: data.result } })
-      );
+      .then((result) => {
+        if (result.success)
+          this.setState({ results: { ...results, orderCount: result.data } });
+      });
+  };
+
+  reloadSummary = () => {
+    fetch(AppConfig.serverUrl + "/acctsummary/" + this.state.accountId, {
+      mode: "cors",
+    })
+      .then((resp) => resp.json())
+      .then((result) => {
+        if (result.success) {
+          this.setState({ accountSummary: result.data });
+        }
+      });
   };
 
   render() {
@@ -45,9 +59,12 @@ class Dashboard extends Component {
           <h1 className="h3 mb-0 text-primary">Dashboard</h1>
         </div>
 
-        <DashboardSummary results={this.state.results} />
+        <DashboardSummary
+          results={this.state.results}
+          summary={this.state.accountSummary}
+        />
         <div className="row">
-          <PositionBlotter reloadTradeCount={this.reloadTradeCount} />
+          <PositionBlotter reloadTradeCount={this.reloadSummary} />
           <InstBlotteer />
         </div>
       </div>
